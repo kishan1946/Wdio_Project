@@ -1,0 +1,21 @@
+{
+    "homePage_locators" : {
+        "myAccount" : ".dropdown-toggle[title='My Account']",
+        "register": "=Register",
+        "logout": "=Logout",
+        "login": "=Login"
+    },
+    "registerPage_locators": {
+        "firstName": "#input-firstname",
+        "lastName": "#input-lastname",
+        "email": "#input-email",
+        "mob": "#input-telephone",
+        "password": "#input-password",
+        "confirmPassword": "#input-confirm",
+        "continue": ".btn.btn-primary",
+        "privacy": "[name='agree']"
+    },
+    "loginPage_locators": {
+        "login": ".btn.btn-primary[value='Login']"
+    }
+}

@@ -1,51 +1,28 @@
 import { ChainablePromiseElement } from 'webdriverio';
+import { loginPage_locators, registerPage_locators } from "../resources/locators.json";
+import { userDetails } from '../../../test/resources/data';
 
 import Page from './page';
 
-/**
- * sub page containing specific selectors and methods for a specific page
- */
 class LoginPage extends Page {
-    /**
-     * define selectors using getter methods
-     */
-     public get myAccount () {
-        return $('.dropdown-toggle[title="My Account"]');
+     public get email () {
+        return $(registerPage_locators.email);
     }
 
-    public get register () {
-        return $('=Register');
+    public get password () {
+        return $(registerPage_locators.password);
     }
 
-    public get inputUsername () {
-        return $('#username');
+    public get loginBtn () {
+        return $(loginPage_locators.login);
     }
 
-    public get inputPassword () {
-        return $('#password');
+    public async login () {
+        await (await this.email).setValue(userDetails.email);
+        await (await this.password).setValue(userDetails.password);
+        await (await this.loginBtn).click();
     }
 
-    public get btnSubmit () {
-        return $('button[type="submit"]');
-    }
-
-    /**
-     * a method to encapsule automation code to interact with the page
-     * e.g. to login using username and password
-     */
-    public async login (username: string, password: string) {
-        // browser.pause(10000);
-        await this.myAccount.click();
-        await this.register.click();
-        browser.pause(30000);
-        // await this.inputUsername.setValue(username);
-        // await this.inputPassword.setValue(password);
-        // await this.btnSubmit.click();
-    }
-
-    /**
-     * overwrite specific options to adapt it to page object
-     */
     public open () {
         return super.open('login');
     }

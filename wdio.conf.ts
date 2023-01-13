@@ -1,9 +1,7 @@
 import type { Options } from '@wdio/types'
-import {featureFiles} from "./config/wdio.feature.files";
 const allure = require("@wdio/allure-reporter").default;
 import {getWebCapabilities} from "./config/wdio.desired.capabilities"
 
-let featureFilesToConsider = featureFiles.webFeatureFiles.regression;
 
 export const config: Options.Testrunner = {
     //
@@ -306,8 +304,12 @@ export const config: Options.Testrunner = {
      * @param {number}             result.duration  duration of scenario in milliseconds
      * @param {Object}             context          Cucumber World object
      */
-    // afterStep: function (step, scenario, result, context) {
-    // },
+    afterStep: async function (step, scenario, result) {
+        if(!result.passed){
+            // await browser.takeScreenshot();
+            await driver.takeScreenshot();
+        }
+    },
     /**
      *
      * Runs after a Cucumber Scenario.

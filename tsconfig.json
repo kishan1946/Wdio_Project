@@ -8,6 +8,8 @@
             "expect-webdriverio",
             "@wdio/cucumber-framework"
         ],
+        "baseUrl": ".",
+        "resolveJsonModule": true,
         "target": "es2022"
     }
 }

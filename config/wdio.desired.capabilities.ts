@@ -8,14 +8,14 @@ const [{ path }, { webEnvPath }, { rootAbsolutePath }] = [
 export const getWebCapabilities = () => {
     require("dotenv").config(
         {
-        path: `${path.join(rootAbsolutePath, webEnvPath)}`,
-    }
+            path: `${path.join(rootAbsolutePath, webEnvPath)}`,
+        }
     );
-    let baseUrl= process.env.WEB_URL
+    let baseUrl = process.env.WEB_URL
     switch (process.env.BROWSER) {
         case "CHROME":
             return {
-                baseUrl: baseUrl,
+                baseUrl: String(baseUrl),
                 services: ["chromedriver"],
                 capabilities: [
                     {
