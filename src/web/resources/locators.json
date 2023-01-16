@@ -1,0 +1,29 @@
+{
+    "homePage_locators" : {
+        "myAccount" : ".dropdown-toggle[title='My Account']",
+        "register": "=Register",
+        "logout": "=Logout",
+        "login": "=Login",
+        "product": ".product-thumb.transition",
+        "yourStore": "=Your Store",
+        "productLabel": ".caption > h4 > a",
+        "productPrice": ".price",
+        "addToCart": ".button-group>button>span",
+        "cartTotal": "#cart-total"
+    },
+    "registerPage_locators": {
+        "firstName": "#input-firstname",
+        "lastName": "#input-lastname",
+        "email": "#input-email",
+        "mob": "#input-telephone",
+        "password": "#input-password",
+        "confirmPassword": "#input-confirm",
+        "continue": ".btn.btn-primary",
+        "privacy": "[name='agree']",
+        "accountCreatedHeader": ".col-sm-9 > h1",
+        "successfulMessage": ".col-sm-9 > p:nth-child(2)"
+    },
+    "loginPage_locators": {
+        "login": ".btn.btn-primary[value='Login']"
+    }
+}
