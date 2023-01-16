@@ -1,31 +1,21 @@
-@Regression
+@All
 Feature: The Internet Guinea Pig Website
 
-  @SI-12345
-  Scenario Outline: As a user, I can log into the secure area
+  @2
+  Scenario Outline: As a new user, I can register, logout and login
 
     Given I am on the home page
-    When I login with <username> and <password>
-    When User Register with new Credential
-    When User navigate to logout page
-    When User logout
-    When User navigate to login page
-    When User login with same credential
-    # Then I should see a flash message saying <message>
+    When I register with new credential
+    Then Verify I register successful
+    When I navigate to logout page
+    Then Verify after logout I return back to home page
+    When I navigate to login page
+    Then Verify after login I navigate to account page
 
-    Examples:
-      | username | password             | message                        |
-      | tomsmith | SuperSecretPassword! | You logged into a secure area! |
 
-  @SI-12346
-  Scenario Outline: As a user, I can log into the secure area 2
-
-    Given I am on the login page
-    When I login with <username> and <password>
-    When User Register with new Credential
-    # Then I should see a flash message saying <message>
-
-    Examples:
-      | username | password             | message                        |
-      | tomsmith | SuperSecretPassword! | You logged into a secure area! |
-      | foobar   | barfoo               | Your username is invalid!      |
+  @1
+  Scenario Outline: As a User, I can add a product to cart and verify cart amount
+    Given I am on the home page
+    When I scroll to product
+    When I add product to the cart
+    Then Verify cart amount is updated according to product selections

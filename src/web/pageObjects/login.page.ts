@@ -5,7 +5,7 @@ import { userDetails } from '../../../test/resources/data';
 import Page from './page';
 
 class LoginPage extends Page {
-     public get email () {
+    public get email () {
         return $(registerPage_locators.email);
     }
 
@@ -28,4 +28,4 @@ class LoginPage extends Page {
     }
 }
 
-export default new LoginPage();
+export default new LoginPage;

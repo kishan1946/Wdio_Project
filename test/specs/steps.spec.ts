@@ -5,7 +5,10 @@ import SecurePage from '../../src/web/pageObjects/secure.page';
 import RegisterPage from '../../src/web/pageObjects/register.page';
 import LoginPage from '../../src/web/pageObjects/login.page';
 import LogoutPage from '../../src/web/pageObjects/logout.page';
+import { registerMessage } from '../resources/assertionMessage';
+import { cart, homePageProduct, productDetails } from '../resources/data';
 import chai = require('chai');
+import homePage from '../../src/web/pageObjects/home.page';
 
 const expectChai = chai.expect;
 const pages = {
@@ -14,39 +17,63 @@ const pages = {
 
 Given(/^I am on the (\w+) page$/, async (page) => {
     await pages[page].open();
-    expectChai(await browser.getUrl()).to.be.equal(process.env.WEB_URL+'index.php?route=common/'+page);
+    await expectChai(await browser.getUrl()).to.be.equal(process.env.WEB_URL + 'index.php?route=common/' + page);
 });
 
-When(/^I login with (\w+) and (.+)$/, async (username, password) => {
-    await HomePage.register()
-});
-
-Then(/^I should see a flash message saying (.*)$/, async (message) => {
-    await expect(SecurePage.flashAlert).toBeExisting();
-    await expect(SecurePage.flashAlert).toHaveTextContaining(message);
-});
-When (/^User Register with new Credential$/, async () => {
+When(/^I register with new credential$/, async () => {
+    await HomePage.register();
+    // await browser.pause(2000);
+    await expectChai(await browser.getUrl()).to.be.equal(process.env.WEB_URL + 'index.php?route=account/register');
     await RegisterPage.register();
-    // await expect($('.btn.btn-primary')).toBeDisabled();
-})
+});
 
-When (/^User navigate to logout page$/, async () => {
+Then(/^Verify I register successful$/, async () => {
+    await expectChai(await (await RegisterPage.accountCreatedHeader).getText()).to.be.equal(registerMessage.accountCreatedHeader);
+    await expectChai(await (await RegisterPage.successfulMessage).getText()).to.be.equal(registerMessage.successfulMessage);
+    await RegisterPage.continue();
+});
+
+When(/^I navigate to logout page$/, async () => {
     await HomePage.logout();
-    // await expect($('.btn.btn-primary')).toBeDisabled();
-})
-
-When (/^User logout$/, async () => {
+    await expectChai(await browser.getUrl()).to.be.equal(process.env.WEB_URL + 'index.php?route=account/logout');
     await LogoutPage.logout();
-    // await expect($('.btn.btn-primary')).toBeDisabled();
-})
+});
 
-When (/^User navigate to login page$/, async () => {
+Then(/^Verify after logout I return back to (\w+) page$/, async (page) => {
+    await expectChai(await browser.getUrl()).to.be.equal(process.env.WEB_URL + 'index.php?route=common/' + page);
+});
+
+When(/^I navigate to login page$/, async () => {
     await HomePage.login();
-    // await expect($('.btn.btn-primary')).toBeDisabled();
-})
-
-When (/^User login with same credential$/, async () => {
+    await expectChai(await browser.getUrl()).to.be.equal(process.env.WEB_URL + 'index.php?route=account/login');
     await LoginPage.login();
-    // await expect($('.btn.btn-primary')).toBeDisabled();
 })
 
+Then(/^Verify after login I navigate to (\w+) page$/, async (page) => {
+    await expectChai(await browser.getUrl()).to.be.equal(process.env.WEB_URL + 'index.php?route=account/' + page);
+});
+
+When(/^I scroll to product$/, async () => {
+    await HomePage.navigateToHomePage();
+    await HomePage.scrollToProduct();
+})
+
+When(/^I add product to the cart$/, async () => {
+    let cartAmount = 0
+    for (let i of homePageProduct) {
+        let price = productDetails[i].price;
+        await HomePage.clickOnAddToCart(i, price)
+            .then((text) => {
+                expectChai(i).to.be.equal(text);
+            })
+        cartAmount = cartAmount + price;
+        let amount = await homePage.getCartTotalText();
+        // await expectChai(amount).to.be.equal(cartAmount,"Amount doesn't match");
+    }
+    cart.cartTotal = cartAmount;
+})
+
+Then(/^Verify cart amount is updated according to product selections$/, async () => {
+    let amount = await homePage.getCartTotalText();
+    await expectChai(amount).to.be.equal(cart.cartTotal);
+})

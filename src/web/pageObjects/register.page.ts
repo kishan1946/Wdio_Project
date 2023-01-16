@@ -5,7 +5,7 @@ import { userDetails } from '../../../test/resources/data';
 
 import Page from './page';
 
-class LoginPage extends Page {
+class RegisterPage extends Page {
     private get firstName () {
         return $(registerPage_locators.firstName);
     }
@@ -34,8 +34,16 @@ class LoginPage extends Page {
         return $(registerPage_locators.privacy);
     }
 
-    private get continue() {
+    private get continueBtn() {
         return $(registerPage_locators.continue);
+    }
+
+    public get accountCreatedHeader() {
+        return $(registerPage_locators.accountCreatedHeader);
+    }
+
+    public get successfulMessage() {
+        return $(registerPage_locators.successfulMessage);
     }
     
     private getFirstName () {
@@ -81,8 +89,11 @@ class LoginPage extends Page {
         await (await this.password).setValue(password);
         await (await this.confirmPassword).setValue(password);
         await (await this.privace).click();
-        await this.continue.click();
-        await this.continue.click();
+        await this.continueBtn.click();
+    }
+
+    public async continue () {
+        await this.continueBtn.click();
     }
 
     public open () {
@@ -90,4 +101,4 @@ class LoginPage extends Page {
     }
 }
 
-export default new LoginPage();
+export default new RegisterPage;

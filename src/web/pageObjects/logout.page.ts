@@ -18,4 +18,4 @@ class LogoutPage extends Page {
     }
 }
 
-export default new LogoutPage();
+export default new LogoutPage;
