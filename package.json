@@ -6,6 +6,7 @@
   "scripts": {
     "test": "npm run wdioo && npm run allure-report",
     "wdioo": "npm run clean-allure-result && wdio run ./wdio.conf.ts --cucumberOpts.tagExpression",
+    "wdio": "wdio run ./wdio.conf.ts --cucumberOpts.tagExpression",
     "allure-report": "allure generate ./reports/allure-results --clean && allure open",
     "clean-allure-result": "rm -rf reports",
     "report": "allure open allure-report"
