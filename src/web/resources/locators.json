@@ -9,7 +9,8 @@
         "productLabel": ".caption > h4 > a",
         "productPrice": ".price",
         "addToCart": ".button-group>button>span",
-        "cartTotal": "#cart-total"
+        "cartTotal": "#cart-total",
+        "cart": "#cart"
     },
     "registerPage_locators": {
         "firstName": "#input-firstname",
