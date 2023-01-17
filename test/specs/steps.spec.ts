@@ -8,7 +8,6 @@ import LogoutPage from '../../src/web/pageObjects/logout.page';
 import { registerMessage } from '../resources/assertionMessage';
 import { cart, homePageProduct, productDetails } from '../resources/data';
 import chai = require('chai');
-import homePage from '../../src/web/pageObjects/home.page';
 
 const expectChai = chai.expect;
 const pages = {
@@ -67,13 +66,20 @@ When(/^I add product to the cart$/, async () => {
                 expectChai(i).to.be.equal(text);
             })
         cartAmount = cartAmount + price;
-        let amount = await homePage.getCartTotalText();
-        // await expectChai(amount).to.be.equal(cartAmount,"Amount doesn't match");
+        let amount = await HomePage.getCartTotalText();
+        await expectChai(amount).to.be.equal(cartAmount,"Amount doesn't match");
     }
     cart.cartTotal = cartAmount;
 })
 
 Then(/^Verify cart amount is updated according to product selections$/, async () => {
-    let amount = await homePage.getCartTotalText();
+    let amount = await HomePage.getCartTotalText();
+    await expectChai(amount).to.be.equal(cart.cartTotal);
+})
+
+When(/^I remove item from cart$/, async () => {
+    await HomePage.removeItem();
+    await browser.pause(1000);
+    let amount = await HomePage.cartTotalFromTable();
     await expectChai(amount).to.be.equal(cart.cartTotal);
 })
