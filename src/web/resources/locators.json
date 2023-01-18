@@ -8,9 +8,10 @@
         "yourStore": "=Your Store",
         "productLabel": ".caption > h4 > a",
         "productPrice": ".price",
-        "addToCart": ".button-group>button>span",
+        "addToCart": ".button-group > button:nth-child(1)",
         "cartTotal": "#cart-total",
-        "cart": "#cart"
+        "cart": "#cart",
+        "successText": ".alert.alert-success.alert-dismissible"
     },
     "registerPage_locators": {
         "firstName": "#input-firstname",

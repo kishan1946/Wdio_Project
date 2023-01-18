@@ -1,4 +1,5 @@
 export const registerMessage = {
     "accountCreatedHeader": "Your Account Has Been Created!",
-    "successfulMessage": "Congratulations! Your new account has been successfully created!"
+    "successfulMessage": "Congratulations! Your new account has been successfully created!",
+    "successTextForAddToCart": "Success: You have added "
 }

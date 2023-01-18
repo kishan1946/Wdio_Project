@@ -3,6 +3,7 @@ import { homePage_locators } from "../resources/locators.json";
 import chai = require('chai');
 import Page from './page';
 import { cart } from '../../../test/resources/data';
+import { registerMessage } from '../../../test/resources/assertionMessage';
 
 const expectChai = chai.expect;
 
@@ -45,6 +46,10 @@ class HomePage extends Page {
 
     public get cart () {
         return $(homePage_locators.cart);
+    }
+
+    public get successText () {
+        return $(homePage_locators.successText);
     }
 
     public addToCart(el: number) {
@@ -90,7 +95,13 @@ class HomePage extends Page {
             if (productText === product) {
                 let price = Number((await (await this.productPrice[i]).getText()).substring(1, 8));
                 await expectChai(price).to.be.equal(productPrice);
-                await (await this.addToCart(i)).click();
+                // await browser.pause(2000);
+                await browser.waitUntil(async () => {
+                    await (await this.addToCart(i)).waitForDisplayed({timeout: 5000})
+                    await (await this.addToCart(i)).click();
+                    // await browser.pause(2000)
+                    return expectChai(await (await this.successText).getText()).to.include(registerMessage.successTextForAddToCart);
+                })
                 return productText;
             }
         }
@@ -108,10 +119,6 @@ class HomePage extends Page {
         let price = Number((await (await this.cartPopUpTable(1,4)).getText()).substring(1));
         cart.cartTotal = cart.cartTotal-price;
         await (await this.remove(1,5)).click();
-        // await (await this.cart).click();
-        // let total = Number((await (await this.cartPopUpTable(4,2)).getText()).substring(1));
-        // console.log("cartTotal: "+ total)
-        // return total;
     }
     public async cartTotalFromTable () {
         await (await this.cart).click();
