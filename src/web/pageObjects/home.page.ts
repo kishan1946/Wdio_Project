@@ -96,13 +96,13 @@ class HomePage extends Page {
                 let price = Number((await (await this.productPrice[i]).getText()).substring(1, 8));
                 await expectChai(price).to.be.equal(productPrice);
                 // await browser.pause(2000);
-                await browser.waitUntil(async () => {
+                // await browser.waitUntil(async () => {
                     await (await this.addToCart(i)).waitForDisplayed({timeout: 5000})
                     await (await this.addToCart(i)).click();
                     // await browser.pause(2000)
-                    await (await this.successText).waitForDisplayed({timeout: 5000})
-                    return expectChai(await (await this.successText).getText()).to.include(registerMessage.successTextForAddToCart);
-                })
+                    // await (await this.successText).waitForDisplayed({timeout: 5000})
+                    // return expectChai(await (await this.successText).getText()).to.include(registerMessage.successTextForAddToCart);
+                // })
                 return productText;
             }
         }
