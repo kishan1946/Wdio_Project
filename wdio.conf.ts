@@ -1,7 +1,10 @@
 import type { Options } from '@wdio/types'
-const allure = require("@wdio/allure-reporter").default;
+// const allure = require("@wdio/allure-reporter").default;
+// import { allure } from 'allure-commandline';
+const allure = require('allure-commandline')
 import {getWebCapabilities} from "./config/wdio.desired.capabilities"
 
+const allreDir = 'reports/allure'
 
 export const config: Options.Testrunner = {
     //
@@ -149,9 +152,9 @@ export const config: Options.Testrunner = {
         [
             "allure",
             {
-                outputDir: "reports/allure-results", // The directory to generate the allure results
+                outputDir: allreDir+"/allure-results", // The directory to generate the allure results
                 disableWebdriverStepsReporting: true,
-                disableWebdriverScreenshotsReporting: true, // This is set to true if screenshots are to be attached to allure reports in cucumber framework inside wdio
+                disableWebdriverScreenshotsReporting: false, // This is set to true if screenshots are to be attached to allure reports in cucumber framework inside wdio
                 useCucumberStepReporter: true, // This is set to true to produce proper format and ordering of the steps inside allure report
             },
         ],
@@ -240,6 +243,20 @@ export const config: Options.Testrunner = {
     beforeScenario: async function () {
         // await browser.url('');
         await browser.maximizeWindow();
+        const fs = require('fs');
+        let dir = allreDir+'/allure-results';
+        try {
+            if(fs.existsSync(dir)){
+                fs.rmSync(dir,{recursive:true});
+                console.log(`${dir} is deleted!`)
+            }
+        }catch(err){
+            console.log('error while deleting this dir');
+            if(!fs.existsSync(dir)){
+                fs.mkdirSync(dir,{recursive:true});
+                console.log(`${dir} got created`)
+            }
+        }
     },
     /**
      * Gets executed before test execution begins. At this point you can access to all global
@@ -306,8 +323,8 @@ export const config: Options.Testrunner = {
      */
     afterStep: async function (step, scenario, result) {
         if(!result.passed){
-            // await browser.takeScreenshot();
-            await driver.takeScreenshot();
+            await browser.takeScreenshot();
+            // await driver.takeScreenshot();
         }
     },
     /**
@@ -369,6 +386,28 @@ export const config: Options.Testrunner = {
      */
     // onComplete: function(exitCode, config, capabilities, results) {
     // },
+
+    onComplete: async function() {
+        const reportError = new Error('Could not generate Allure report')
+        const generation = allure(['generate', allreDir+'/allure-results', '--clean', '-o', allreDir+'/allure-report'])
+        return new Promise<void>((resolve, reject) => {
+            const generationTimeout = setTimeout(
+                () => reject(reportError),
+                5000)
+
+            generation.on('exit', function(exitCode) {
+                clearTimeout(generationTimeout)
+
+                if (exitCode !== 0) {
+                    return reject(reportError)
+                }
+
+                console.log('Allure report successfully generated')
+                resolve()
+            })
+        })
+    }
+
     /**
     * Gets executed when a refresh happens.
     * @param {String} oldSessionId session ID of the old session

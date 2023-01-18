@@ -21,7 +21,6 @@ jobs:
         - name: Test
           run: npm run wdio:Headless
         - uses: actions/upload-artifact@v3
-          if: failure()
           with:
             name: allureReport
-            path: allure-report
+            path: ./reports/allure/allure-report

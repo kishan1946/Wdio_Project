@@ -8,9 +8,9 @@
     "wdioo": "npm run clean-allure-result && wdio run ./wdio.conf.ts --cucumberOpts.tagExpression",
     "wdio": "wdio run ./wdio.conf.ts --cucumberOpts.tagExpression ",
     "wdio:Headless": "MODE=HEADLESS wdio run ./wdio.conf.ts --cucumberOpts.tagExpression ",
-    "allure-report": "allure generate ./reports/allure-results --clean && allure open",
+    "allure-report": "allure generate ./reports/allure/allure-results --clean -o ./reports/allure/allure-report && allure open",
     "clean-allure-result": "rm -rf reports",
-    "report": "allure open allure-report"
+    "report": "allure open ./reports/allure/allure-report"
   },
   "repository": {
     "type": "git",

@@ -100,6 +100,7 @@ class HomePage extends Page {
                     await (await this.addToCart(i)).waitForDisplayed({timeout: 5000})
                     await (await this.addToCart(i)).click();
                     // await browser.pause(2000)
+                    await (await this.successText).waitForDisplayed({timeout: 5000})
                     return expectChai(await (await this.successText).getText()).to.include(registerMessage.successTextForAddToCart);
                 })
                 return productText;
