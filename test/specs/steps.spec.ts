@@ -16,13 +16,13 @@ const pages = {
 
 Given(/^I am on the (\w+) page$/, async (page) => {
     await pages[page].open();
-    await expectChai(await browser.getUrl()).to.be.equal(process.env.WEB_URL + 'index.php?route=common/' + page);
+    await expectChai(await browser.getUrl()).to.be.equal(process.env.BASE_URL + 'index.php?route=common/' + page);
 });
 
 When(/^I register with new credential$/, async () => {
     await HomePage.register();
     // await browser.pause(2000);
-    await expectChai(await browser.getUrl()).to.be.equal(process.env.WEB_URL + 'index.php?route=account/register');
+    await expectChai(await browser.getUrl()).to.be.equal(process.env.BASE_URL + 'index.php?route=account/register');
     await RegisterPage.register();
 });
 
@@ -34,22 +34,22 @@ Then(/^Verify I register successful$/, async () => {
 
 When(/^I navigate to logout page$/, async () => {
     await HomePage.logout();
-    await expectChai(await browser.getUrl()).to.be.equal(process.env.WEB_URL + 'index.php?route=account/logout');
+    await expectChai(await browser.getUrl()).to.be.equal(process.env.BASE_URL + 'index.php?route=account/logout');
     await LogoutPage.logout();
 });
 
 Then(/^Verify after logout I return back to (\w+) page$/, async (page) => {
-    await expectChai(await browser.getUrl()).to.be.equal(process.env.WEB_URL + 'index.php?route=common/' + page);
+    await expectChai(await browser.getUrl()).to.be.equal(process.env.BASE_URL + 'index.php?route=common/' + page);
 });
 
 When(/^I navigate to login page$/, async () => {
     await HomePage.login();
-    await expectChai(await browser.getUrl()).to.be.equal(process.env.WEB_URL + 'index.php?route=account/login');
+    await expectChai(await browser.getUrl()).to.be.equal(process.env.BASE_URL + 'index.php?route=account/login');
     await LoginPage.login();
 })
 
 Then(/^Verify after login I navigate to (\w+) page$/, async (page) => {
-    await expectChai(await browser.getUrl()).to.be.equal(process.env.WEB_URL + 'index.php?route=account/' + page);
+    await expectChai(await browser.getUrl()).to.be.equal(process.env.BASE_URL + 'index.php?route=account/' + page);
 });
 
 When(/^I scroll to product$/, async () => {
@@ -80,7 +80,7 @@ Then(/^Verify cart amount is updated according to product selections$/, async ()
 
 When(/^I remove item from cart$/, async () => {
     await HomePage.removeItem();
-    await browser.pause(1000);
+    await browser.pause(500);
     let amount = await HomePage.cartTotalFromTable();
     await expectChai(amount).to.be.equal(cart.cartTotal);
 })

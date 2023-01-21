@@ -138,12 +138,16 @@ class HomePage extends Page {
 
     public async removeItem() {
         await (await this.cart).click();
+        await browser.pause(500);
+        await (await this.cartPopUpTable(1, 4)).waitForDisplayed({ timeout: 5000 });
         let price = Number((await (await this.cartPopUpTable(1, 4)).getText()).substring(1));
         cart.cartTotal = cart.cartTotal - price;
         await (await this.remove(1, 5)).click();
     }
     public async cartTotalFromTable() {
         await (await this.cart).click();
+        await browser.pause(500);
+        await (await this.cartPopUpTable(4, 2)).waitForDisplayed({ timeout: 5000 });
         let total = Number((await (await this.cartPopUpTable(4, 2)).getText()).substring(1));
         console.log("cartTotal: " + total)
         return total;
