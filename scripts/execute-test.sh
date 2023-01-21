@@ -82,7 +82,7 @@ echo "***** REPORT to be displayed : ${REPORT} *****"
 echo "***** Executing test script started *****"
 
 
-if [ "$REPORT" == "NO" ]
+if [ "$REPORT" == false ]
 then
   ENV=${ENV}${MODE}${BROWSER} npm run wdio @${TAG}
 else

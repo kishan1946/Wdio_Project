@@ -25,7 +25,6 @@ on:
       artifact:
         description: 'Artifact Reporting'
         required: false
-        default: 'NO'
         type: boolean
       gh_page:
         description: 'gh-pages'
