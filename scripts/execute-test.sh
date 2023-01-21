@@ -33,13 +33,16 @@ fi
 if [ "$BASE_URL" == "NA" ]
 then
   BASE_URL="http://tutorialsninja.com/demo/"
-elif [ "${ENV}" == "staging" ]
+if [ "${ENV}" == "staging" ]
 then
   BASE_URL="http://tutorialsninja.com/demo/"
-elif [ "${ENV}" == "prod" ]
+fi
+if [ "${ENV}" == "prod" ]
 then
   BASE_URL="https://www.google.com/"
+fi
 else
+  BASE_URL="https://"$BASE_URL
   echo "Custom BASE_URL will be used"
 fi
 # ENVIRONMENT
