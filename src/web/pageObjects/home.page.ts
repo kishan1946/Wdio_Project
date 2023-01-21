@@ -8,77 +8,81 @@ import { registerMessage, topMenuOptionLabel, topMenuOptionSeeAllLabel } from '.
 const expectChai = chai.expect;
 
 class HomePage extends Page {
-    public get myAccount() {
+    private get myAccount() {
         return $(homePage_locators.myAccount);
     }
 
-    public get registerDropDown() {
+    private get registerDropDown() {
         return $(homePage_locators.register);
     }
 
-    public get logoutDropDown() {
+    private get logoutDropDown() {
         return $(homePage_locators.logout);
     }
 
-    public get loginDropDown() {
+    private get loginDropDown() {
         return $(homePage_locators.login);
     }
 
-    public get yourStore() {
+    private get yourStore() {
         return $(homePage_locators.yourStore);
     }
 
-    public get product() {
+    private get product() {
         return $(homePage_locators.product);
     }
 
-    public productLevel(el: number) {
+    private productLevel(el: number) {
         return $$(homePage_locators.productLabel)[el];
     }
 
-    public get productPrice() {
+    private get productPrice() {
         return $$(homePage_locators.productPrice);
     }
 
-    public get cartTotal() {
+    private get cartTotal() {
         return $(homePage_locators.cartTotal);
     }
 
-    public get cart() {
+    private get cart() {
         return $(homePage_locators.cart);
     }
 
-    public get successText() {
+    private get successText() {
         return $(homePage_locators.successText);
     }
 
-    public get optionLabel() {
+    private get optionLabel() {
         return $(homePage_locators.optionLabel);
     }
 
-    public topMenuDropDown(index: number) {
+    private topMenuDropDown(index: number) {
         return $$(homePage_locators.topMenuDropDown)[index];
     }
 
-    public seeAllTopMenu(index: number) {
+    private seeAllTopMenu(index: number) {
         return $$(homePage_locators.seeAllTopMenu)[index];
     }
 
-    public addToCart(el: number) {
+    private addToCart(el: number) {
         return $$(homePage_locators.addToCart)[el];
     }
 
-    public cartPopUpTable(tr: number, td: number) {
+    private cartPopUpTable(tr: number, td: number) {
         return $(`.table > tbody tr:nth-child(${tr}) td:nth-child(${td})`);
     }
 
-    public remove(tr: number, td: number) {
+    private remove(tr: number, td: number) {
         // let el = await this.cartPopUpTable(tr,td);
         return $(`.table > tbody tr:nth-child(${tr}) td:nth-child(${td}) > button`);
     }
 
-    public getTopMenuSubElement(el: string) {
+    private getTopMenuSubElement(el: string) {
         return $(`*=${el}`);
+    }
+
+    private getTopNonDropDownElements (el: string) {
+        return $(`=${el}`);
     }
 
     public async register() {
@@ -174,6 +178,14 @@ class HomePage extends Page {
         }
     }
 
+    public async navigateToTopNonDropDown () {
+        let n = homePage_locators.topNonDropDown.length;
+        for (let i = 0; i < n; i++) {
+            await (await this.getTopNonDropDownElements(homePage_locators.topNonDropDown[i])).waitForDisplayed();
+            await (await this.getTopNonDropDownElements(homePage_locators.topNonDropDown[i])).click();
+            await expectChai(await (await this.optionLabel).getText()).to.be.equal(homePage_locators.topNonDropDown[i]);
+        }
+    }
     public open() {
         return super.open('home');
     }

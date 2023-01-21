@@ -38,11 +38,11 @@ class RegisterPage extends Page {
         return $(registerPage_locators.continue);
     }
 
-    public get accountCreatedHeader() {
+    private get accountCreatedHeader() {
         return $(registerPage_locators.accountCreatedHeader);
     }
 
-    public get successfulMessage() {
+    private get successfulMessage() {
         return $(registerPage_locators.successfulMessage);
     }
     
@@ -94,6 +94,14 @@ class RegisterPage extends Page {
 
     public async continue () {
         await this.continueBtn.click();
+    }
+
+    public async getRegisterText () {
+        return await (await this.accountCreatedHeader).getText();
+    }
+
+    public async getSuccessfulMessageText () {
+        return await (await this.successfulMessage).getText();
     }
 
     public open () {
