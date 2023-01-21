@@ -65,7 +65,8 @@ When(/^I add product to the cart$/, async () => {
             .then((text) => {
                 expectChai(i).to.be.equal(text);
             })
-        cartAmount = cartAmount + price;
+        cartAmount = await cartAmount + price;
+        await browser.pause(200);
         let amount = await HomePage.getCartTotalText();
         await expectChai(amount).to.be.equal(cartAmount,"Amount doesn't match");
     }
