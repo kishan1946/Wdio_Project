@@ -29,7 +29,7 @@ jobs:
         - name: Install
           run: npm install
         - name: Test
-          run: npm run wdio:Headless @${{ github.event.inputs.tag }}
+          run: npm run wdio:Headless @"${{ github.event.inputs.tag }}"
         - if: github.event.inputs.artifact == 'true'
           uses: actions/upload-artifact@v3
           with:
