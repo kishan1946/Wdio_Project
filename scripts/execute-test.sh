@@ -6,6 +6,7 @@ TAG="${2-All}"
 HEADLESS="${3-No}"
 BROWSER="${4-CHROME}"
 BASE_URL="${5-NA}"
+REPORT="${6-YES}"
 
 AVAILABLE_ENVS="staging prod"
 
@@ -32,14 +33,12 @@ fi
 if [ "$BASE_URL" == "NA" ]
 then
   BASE_URL="http://tutorialsninja.com/demo/"
-if [ "${ENV}" == "staging" ]
+elif [ "${ENV}" == "staging" ]
 then
   BASE_URL="http://tutorialsninja.com/demo/"
-fi
-if [ "${ENV}" == "prod" ]
+elif [ "${ENV}" == "prod" ]
 then
   BASE_URL="https://www.google.com/"
-fi
 else
   echo "Custom BASE_URL will be used"
 fi
@@ -48,8 +47,7 @@ fi
 if [ "$HEADLESS" == "Yes" ]
 then
   MODE="HEADLESS"
-fi
-if [ "$HEADLESS" == "YES" ]
+elif [ "$HEADLESS" == "YES" ]
 then
   MODE="HEADLESS"
 else
@@ -60,8 +58,7 @@ fi
 if [ "$BROWSER" == "CHROME" ]
 then
   BROWSER="CHROME"
-fi
-if [ "$BROWSER" == "FIREFOX" ]
+elif [ "$BROWSER" == "FIREFOX" ]
 then
   BROWSER="FIREFOX"
 else
@@ -83,7 +80,16 @@ echo "***** BROWSER MODE to be used is : ${BROWSER} *****"
 echo "***** BASE URL to be used is : ${BASE_URL} *****"
 echo "***** Executing test script started *****"
 
-ENV=${ENV}${MODE}${BROWSER} npm run wdio @${TAG} && npm run report
+
+if [ "$REPORT" == false ]
+then
+  ENV=${ENV}${MODE}${BROWSER} npm run wdio @${TAG}
+elif [ "$REPORT" == true ]
+then
+  ENV=${ENV}${MODE}${BROWSER} npm run wdio @${TAG}
+else
+  ENV=${ENV}${MODE}${BROWSER} npm run wdio @${TAG} && npm run report
+fi
 # ENV=npm run report
 
 echo "***** Test script execution completed *****"
