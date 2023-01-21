@@ -26,15 +26,19 @@ jobs:
         - uses: actions/setup-node@v3
           with:
             node-version: 18
+            
         - name: Install
           run: npm install
+          
         - name: Test
-          run: npm run wdio:Headless @"${{ github.event.inputs.tag }}"
+          run: npm run wdio:Headless echo @${{ github.event.inputs.tag }}
+          
         - if: github.event.inputs.artifact == 'true'
           uses: actions/upload-artifact@v3
           with:
             name: allureReport
             path: ./reports/allure/allure-report
+            
         - name: Get Allure history
           uses: actions/checkout@v2
           if: always()
