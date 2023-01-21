@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "npm run wdioo && npm run allure-report",
-    "wdioo": "npm run clean-allure-result && wdio run ./wdio.conf.ts --cucumberOpts.tagExpression",
+    "wdioo": "wdio run ./wdio.conf.ts --cucumberOpts.tagExpression",
     "wdio": "wdio run ./wdio.conf.ts --cucumberOpts.tagExpression ",
     "wdio:Headless": "MODE=HEADLESS wdio run ./wdio.conf.ts --cucumberOpts.tagExpression ",
     "allure-report": "allure generate ./reports/allure/allure-results --clean -o ./reports/allure/allure-report && allure open",

@@ -3,7 +3,7 @@ import { homePage_locators } from "../resources/locators.json";
 import chai = require('chai');
 import Page from './page';
 import { cart } from '../../../test/resources/data';
-import { registerMessage } from '../../../test/resources/assertionMessage';
+import { registerMessage, topMenuOptionLabel, topMenuOptionSeeAllLabel } from '../../../test/resources/assertionMessage';
 
 const expectChai = chai.expect;
 
@@ -44,25 +44,41 @@ class HomePage extends Page {
         return $(homePage_locators.cartTotal);
     }
 
-    public get cart () {
+    public get cart() {
         return $(homePage_locators.cart);
     }
 
-    public get successText () {
+    public get successText() {
         return $(homePage_locators.successText);
+    }
+
+    public get optionLabel() {
+        return $(homePage_locators.optionLabel);
+    }
+
+    public topMenuDropDown(index: number) {
+        return $$(homePage_locators.topMenuDropDown)[index];
+    }
+
+    public seeAllTopMenu(index: number) {
+        return $$(homePage_locators.seeAllTopMenu)[index];
     }
 
     public addToCart(el: number) {
         return $$(homePage_locators.addToCart)[el];
     }
 
-    public cartPopUpTable (tr: number, td: number) {
+    public cartPopUpTable(tr: number, td: number) {
         return $(`.table > tbody tr:nth-child(${tr}) td:nth-child(${td})`);
     }
 
-    public remove (tr: number, td: number) {
+    public remove(tr: number, td: number) {
         // let el = await this.cartPopUpTable(tr,td);
         return $(`.table > tbody tr:nth-child(${tr}) td:nth-child(${td}) > button`);
+    }
+
+    public getTopMenuSubElement(el: string) {
+        return $(`*=${el}`);
     }
 
     public async register() {
@@ -97,11 +113,11 @@ class HomePage extends Page {
                 await expectChai(price).to.be.equal(productPrice);
                 // await browser.pause(2000);
                 // await browser.waitUntil(async () => {
-                    await (await this.addToCart(i)).waitForDisplayed({timeout: 5000})
-                    await (await this.addToCart(i)).click();
-                    // await browser.pause(2000)
-                    // await (await this.successText).waitForDisplayed({timeout: 5000})
-                    // return expectChai(await (await this.successText).getText()).to.include(registerMessage.successTextForAddToCart);
+                await (await this.addToCart(i)).waitForDisplayed({ timeout: 5000 })
+                await (await this.addToCart(i)).click();
+                // await browser.pause(2000)
+                // await (await this.successText).waitForDisplayed({timeout: 5000})
+                // return expectChai(await (await this.successText).getText()).to.include(registerMessage.successTextForAddToCart);
                 // })
                 return productText;
             }
@@ -115,17 +131,46 @@ class HomePage extends Page {
         return amount;
     }
 
-    public async removeItem () {
+    public async removeItem() {
         await (await this.cart).click();
-        let price = Number((await (await this.cartPopUpTable(1,4)).getText()).substring(1));
-        cart.cartTotal = cart.cartTotal-price;
-        await (await this.remove(1,5)).click();
+        let price = Number((await (await this.cartPopUpTable(1, 4)).getText()).substring(1));
+        cart.cartTotal = cart.cartTotal - price;
+        await (await this.remove(1, 5)).click();
     }
-    public async cartTotalFromTable () {
+    public async cartTotalFromTable() {
         await (await this.cart).click();
-        let total = Number((await (await this.cartPopUpTable(4,2)).getText()).substring(1));
-        console.log("cartTotal: "+ total)
+        let total = Number((await (await this.cartPopUpTable(4, 2)).getText()).substring(1));
+        console.log("cartTotal: " + total)
         return total;
+    }
+
+    public async moveToSeeAllOption(index: number) {
+        await (await this.topMenuDropDown(index)).waitForDisplayed();
+        await (await this.topMenuDropDown(index)).moveTo().then(async () => {
+            // browser.pause(3000);
+            await (await this.seeAllTopMenu(index - 1)).waitForDisplayed();
+            await (await this.seeAllTopMenu(index - 1)).click();
+            await expectChai(await (await this.optionLabel).getText()).to.be.equal(topMenuOptionSeeAllLabel[index - 1]);
+            await browser.pause(100);
+        })
+    }
+
+    public async hoverOnTopMenuDropDown() {
+        for (let i = 1; i < 5; i++) {
+            let topMenuText = await (await this.topMenuDropDown(i)).getText();
+            let n = topMenuOptionLabel[topMenuText].length;
+            for (let j = 0; j < n; j++) {
+                await (await this.topMenuDropDown(i)).waitForDisplayed();
+                await (await this.topMenuDropDown(i)).moveTo().then(async () => {
+                    // browser.pause(3000);
+                    await (await this.getTopMenuSubElement(topMenuOptionLabel[topMenuText][j])).waitForDisplayed();
+                    await (await this.getTopMenuSubElement(topMenuOptionLabel[topMenuText][j])).click();
+                    await expectChai(await (await this.optionLabel).getText()).to.be.equal(topMenuOptionLabel[topMenuText][j]);
+                    await browser.pause(100);
+                })
+            }
+            await this.moveToSeeAllOption(i);
+        }
     }
 
     public open() {

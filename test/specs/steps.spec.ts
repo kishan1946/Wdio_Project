@@ -83,3 +83,7 @@ When(/^I remove item from cart$/, async () => {
     let amount = await HomePage.cartTotalFromTable();
     await expectChai(amount).to.be.equal(cart.cartTotal);
 })
+
+When(/^I navigate to all top menu bar$/, async () => {
+    await HomePage.hoverOnTopMenuDropDown();
+})

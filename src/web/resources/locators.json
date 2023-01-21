@@ -11,7 +11,10 @@
         "addToCart": ".button-group > button:nth-child(1)",
         "cartTotal": "#cart-total",
         "cart": "#cart",
-        "successText": ".alert.alert-success.alert-dismissible"
+        "successText": ".alert.alert-success.alert-dismissible",
+        "topMenuDropDown": ".dropdown > a",
+        "seeAllTopMenu": ".see-all",
+        "optionLabel": ".col-sm-9>h2"
     },
     "registerPage_locators": {
         "firstName": "#input-firstname",
