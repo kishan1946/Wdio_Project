@@ -25,6 +25,7 @@ on:
       artifact:
         description: 'Artifact Reporting'
         required: false
+        default: 'NO'
         type: boolean
       gh_page:
         description: 'gh-pages'
@@ -51,7 +52,7 @@ jobs:
           run: npm install
           
         - name: Test
-          run: npm run test:${{ github.event.inputs.env }} ${{ github.event.inputs.tag }} Yes ${{ github.event.inputs.browser }}
+          run: npm run test:${{ github.event.inputs.env }} ${{ github.event.inputs.tag }} Yes ${{ github.event.inputs.browser }} NA ${{ github.event.inputs.artifact }}
           # continue-on-error: true
           
         - name: Artifact Reporting

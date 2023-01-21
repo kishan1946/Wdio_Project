@@ -6,6 +6,7 @@ TAG="${2-All}"
 HEADLESS="${3-No}"
 BROWSER="${4-CHROME}"
 BASE_URL="${5-NA}"
+REPORT="${6-YES}"
 
 AVAILABLE_ENVS="staging prod"
 
@@ -77,9 +78,16 @@ echo "***** Cucumber Annotation: ${TAG} *****"
 echo "***** HEADLESS MODE to be used is : ${HEADLESS} *****"
 echo "***** BROWSER MODE to be used is : ${BROWSER} *****"
 echo "***** BASE URL to be used is : ${BASE_URL} *****"
+echo "***** REPORT to be displayed : ${REPORT} *****"
 echo "***** Executing test script started *****"
 
-ENV=${ENV}${MODE}${BROWSER} npm run wdio @${TAG} && npm run report
+
+if [ "$REPORT" == "NO" ]
+then
+  ENV=${ENV}${MODE}${BROWSER} npm run wdio @${TAG}
+else
+  ENV=${ENV}${MODE}${BROWSER} npm run wdio @${TAG} && npm run report
+fi
 # ENV=npm run report
 
 echo "***** Test script execution completed *****"
