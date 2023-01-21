@@ -4,7 +4,7 @@ on:
     inputs:
       tag:
         description: 'Cucumber Execution Tag'
-        default: 'All'
+        default: '@All'
         required: true
       artifact:
         description: 'Artifact Reporting'
@@ -17,8 +17,6 @@ on:
   push:
     branches:
       - main
-    tags-ignore:
-      - '@*'
   schedule:
     # Runs "everyday at 11 AM IST ( 5:30 UTC timezone)" (see https://crontab.guru)
     - cron: '30 5 * * *'
@@ -37,7 +35,7 @@ jobs:
           run: npm install
           
         - name: Test
-          run: npm run wdio:Headless @${{ github.event.inputs.tag }}
+          run: npm run wdio:Headless ${{ github.event.inputs.tag }}
           # continue-on-error: true
           
         - name: Artifact Reporting
@@ -58,7 +56,6 @@ jobs:
         - name: Test marketplace action
           if: github.event.inputs.gh_page == 'true'
           uses: simple-elf/allure-report-action@master
-          if: always()
           id: allure-report
           with:
             allure_results: build/allure-results
