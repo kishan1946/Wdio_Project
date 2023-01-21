@@ -10,11 +10,15 @@ on:
         description: 'Artifact Reporting'
         required: false
         type: boolean
+      gh_page:
+        description: 'gh-pages'
+        required: false
+        type: boolean
   push:
     branches:
       - main
     tags-ignore:
-      - '*'
+      - '@*'
   schedule:
     # Runs "everyday at 11 AM IST ( 5:30 UTC timezone)" (see https://crontab.guru)
     - cron: '30 5 * * *'
@@ -44,14 +48,15 @@ jobs:
             path: ./reports/allure/allure-report
             
         - name: Get Allure history
+          if: github.event.inputs.gh_page == 'true'
           uses: actions/checkout@v2
-          if: always()
           continue-on-error: true
           with:
             ref: gh-pages
             path: gh-pages
 
         - name: Test marketplace action
+          if: github.event.inputs.gh_page == 'true'
           uses: simple-elf/allure-report-action@master
           if: always()
           id: allure-report
@@ -62,19 +67,19 @@ jobs:
             allure_history: allure-history
 
         - name: Deploy report to Github Pages
-          if: always()
+          if: github.event.inputs.gh_page == 'true'
           uses: peaceiris/actions-gh-pages@v2
           env:
             PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             PUBLISH_BRANCH: gh-pages
             PUBLISH_DIR: allure-history
 
-        - name: Post the link to the report
-          if: always()
-          uses: Sibz/github-status-action@v1
-          with: 
-            authToken: ${{secrets.GITHUB_TOKEN}}
-            context: 'Test report'
-            state: 'success'
-            sha: ${{ github.event.pull_request.head.sha || github.sha }}
-            target_url: simple-elf.github.io/github-allure-history/${{ github.run_number }}
+        # - name: Post the link to the report
+        #   if: github.event.inputs.gh_page == 'true'
+        #   uses: Sibz/github-status-action@v1
+        #   with: 
+        #     authToken: ${{secrets.GITHUB_TOKEN}}
+        #     context: 'Test report'
+        #     state: 'success'
+        #     sha: ${{ github.event.pull_request.head.sha || github.sha }}
+        #     target_url: simple-elf.github.io/github-allure-history/${{ github.run_number }}
