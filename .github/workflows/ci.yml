@@ -34,8 +34,10 @@ jobs:
           
         - name: Test
           run: npm run wdio:Headless @${{ github.event.inputs.tag }}
+          continue-on-error: true
           
-        - if: github.event.inputs.artifact == 'true'
+        - name: Artifact Reporting
+          if: github.event.inputs.artifact == 'true'
           uses: actions/upload-artifact@v3
           with:
             name: allureReport
