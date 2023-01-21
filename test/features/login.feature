@@ -21,3 +21,8 @@ Feature: The Internet Guinea Pig Website
     Then Verify cart amount is updated according to product selections
     When I remove item from cart
     Then Verify cart amount is updated according to product selections
+
+  @3
+  Scenario Outline: As a User, I can navigate to all options from the top menu bar
+    Given I am on the home page
+    When I navigate to all top menu bar
