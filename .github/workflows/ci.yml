@@ -13,6 +13,8 @@ on:
   push:
     branches:
       - main
+    tags-ignore:
+      - '*'
   schedule:
     # Runs "everyday at 11 AM IST ( 5:30 UTC timezone)" (see https://crontab.guru)
     - cron: '30 5 * * *'
@@ -31,7 +33,7 @@ jobs:
           run: npm install
           
         - name: Test
-          run: npm run wdio:Headless echo @${{ github.event.inputs.tag }}
+          run: npm run wdio:Headless @${{ github.event.inputs.tag }}
           
         - if: github.event.inputs.artifact == 'true'
           uses: actions/upload-artifact@v3
