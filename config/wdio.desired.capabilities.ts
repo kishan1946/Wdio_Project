@@ -23,7 +23,7 @@ export const getWebCapabilities = () => {
             args: ['-headless']
         }
     }
-    let baseUrl = process.env.WEB_URL
+    let baseUrl = process.env.BASE_URL
     switch (process.env.BROWSER) {
         case "CHROME":
             return {

@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npm run wdioo && npm run allure-report",
-    "wdioo": "wdio run ./wdio.conf.ts --cucumberOpts.tagExpression",
+    "script": "./scripts/execute-test.sh",
+    "test:staging": "npm run script -- staging \"$@\"",
+    "test:prod": "npm run script -- prod \"$@\"",
     "wdio": "wdio run ./wdio.conf.ts --cucumberOpts.tagExpression ",
     "wdio:Headless": "MODE=HEADLESS wdio run ./wdio.conf.ts --cucumberOpts.tagExpression ",
     "allure-report": "allure generate ./reports/allure/allure-results --clean -o ./reports/allure/allure-report && allure open",
@@ -24,6 +25,7 @@
   },
   "homepage": "https://github.com/kishank1946/WdioProject#readme",
   "devDependencies": {
+    "@types/chai": "^4.3.4",
     "@wdio/allure-reporter": "^8.1.2",
     "@wdio/cli": "^8.1.3",
     "@wdio/cucumber-framework": "^8.1.2",

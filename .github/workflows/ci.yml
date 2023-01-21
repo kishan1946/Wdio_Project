@@ -2,9 +2,25 @@ name: CI
 on:
   workflow_dispatch:
     inputs:
+      env:
+        description: 'Environment Type'
+        default: 'staging'
+        required: true
+        type: choice
+        options:
+          - staging
+          - prod
+      browser:
+        description: 'Browser Type'
+        default: 'CHROME'
+        required: true
+        type: choice
+        options:
+          - CHROME
+          - FIREFOX
       tag:
         description: 'Cucumber Execution Tag'
-        default: '@All'
+        default: 'All'
         required: true
       artifact:
         description: 'Artifact Reporting'
@@ -14,9 +30,9 @@ on:
         description: 'gh-pages'
         required: false
         type: boolean
-  push:
-    branches:
-      - main
+  # push:
+  #   branches:
+  #     - main
   schedule:
     # Runs "everyday at 11 AM IST ( 5:30 UTC timezone)" (see https://crontab.guru)
     - cron: '30 5 * * *'
@@ -35,7 +51,7 @@ jobs:
           run: npm install
           
         - name: Test
-          run: npm run wdio:Headless ${{ github.event.inputs.tag }}
+          run: npm run test:${{ github.event.inputs.env }} ${{ github.event.inputs.tag }} Yes ${{ github.event.inputs.browser }}
           # continue-on-error: true
           
         - name: Artifact Reporting
