@@ -9,7 +9,7 @@ on:
         type: choice
         options:
           - staging
-          # - prod
+          - prod
       browser:
         description: 'Browser Type'
         default: 'CHROME'
