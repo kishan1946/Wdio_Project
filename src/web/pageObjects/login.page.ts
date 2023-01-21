@@ -5,15 +5,15 @@ import { userDetails } from '../../../test/resources/data';
 import Page from './page';
 
 class LoginPage extends Page {
-    public get email () {
+    private get email () {
         return $(registerPage_locators.email);
     }
 
-    public get password () {
+    private get password () {
         return $(registerPage_locators.password);
     }
 
-    public get loginBtn () {
+    private get loginBtn () {
         return $(loginPage_locators.login);
     }
 

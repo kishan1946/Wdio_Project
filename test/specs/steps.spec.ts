@@ -27,8 +27,8 @@ When(/^I register with new credential$/, async () => {
 });
 
 Then(/^Verify I register successful$/, async () => {
-    await expectChai(await (await RegisterPage.accountCreatedHeader).getText()).to.be.equal(registerMessage.accountCreatedHeader);
-    await expectChai(await (await RegisterPage.successfulMessage).getText()).to.be.equal(registerMessage.successfulMessage);
+    await expectChai(await RegisterPage.getRegisterText()).to.be.equal(registerMessage.accountCreatedHeader);
+    await expectChai(await RegisterPage.getSuccessfulMessageText()).to.be.equal(registerMessage.successfulMessage);
     await RegisterPage.continue();
 });
 
@@ -87,4 +87,5 @@ When(/^I remove item from cart$/, async () => {
 
 When(/^I navigate to all top menu bar$/, async () => {
     await HomePage.hoverOnTopMenuDropDown();
+    await HomePage.navigateToTopNonDropDown();
 })

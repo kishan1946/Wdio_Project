@@ -14,7 +14,8 @@
         "successText": ".alert.alert-success.alert-dismissible",
         "topMenuDropDown": ".dropdown > a",
         "seeAllTopMenu": ".see-all",
-        "optionLabel": ".col-sm-9>h2"
+        "optionLabel": ".col-sm-9>h2",
+        "topNonDropDown": ["Tablets","Software","Phones & PDAs","Cameras"]
     },
     "registerPage_locators": {
         "firstName": "#input-firstname",
