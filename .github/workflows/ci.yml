@@ -1,5 +1,15 @@
 name: CI
 on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Cucumber Execution Tag'
+        default: 'All'
+        required: true
+      artifact:
+        description: 'Artifact Reporting'
+        required: false
+        type: boolean
   push:
     branches:
       - main
@@ -19,8 +29,9 @@ jobs:
         - name: Install
           run: npm install
         - name: Test
-          run: npm run wdio:Headless
-        - uses: actions/upload-artifact@v3
+          run: npm run wdio:Headless @${{ github.event.inputs.tag }}
+        - if: github.event.inputs.artifact == 'true'
+          uses: actions/upload-artifact@v3
           with:
             name: allureReport
             path: ./reports/allure/allure-report
