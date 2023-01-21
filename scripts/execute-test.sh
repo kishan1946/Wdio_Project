@@ -32,14 +32,12 @@ fi
 if [ "$BASE_URL" == "NA" ]
 then
   BASE_URL="http://tutorialsninja.com/demo/"
-if [ "${ENV}" == "staging" ]
+elif [ "${ENV}" == "staging" ]
 then
   BASE_URL="http://tutorialsninja.com/demo/"
-fi
-if [ "${ENV}" == "prod" ]
+elif [ "${ENV}" == "prod" ]
 then
   BASE_URL="https://www.google.com/"
-fi
 else
   echo "Custom BASE_URL will be used"
 fi
@@ -48,8 +46,7 @@ fi
 if [ "$HEADLESS" == "Yes" ]
 then
   MODE="HEADLESS"
-fi
-if [ "$HEADLESS" == "YES" ]
+elif [ "$HEADLESS" == "YES" ]
 then
   MODE="HEADLESS"
 else
@@ -60,8 +57,7 @@ fi
 if [ "$BROWSER" == "CHROME" ]
 then
   BROWSER="CHROME"
-fi
-if [ "$BROWSER" == "FIREFOX" ]
+elif [ "$BROWSER" == "FIREFOX" ]
 then
   BROWSER="FIREFOX"
 else
