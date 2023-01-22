@@ -30,9 +30,9 @@ on:
         description: 'gh-pages'
         required: false
         type: boolean
-  # push:
-  #   branches:
-  #     - main
+  push:
+    branches:
+      - main
   schedule:
     # Runs "everyday at 11 AM IST ( 5:30 UTC timezone)" (see https://crontab.guru)
     - cron: '30 5 * * *'
@@ -50,9 +50,18 @@ jobs:
         - name: Install
           run: npm install
           
-        - name: Test
-          run: npm run test:${{ github.event.inputs.env }} ${{ github.event.inputs.tag }} Yes ${{ github.event.inputs.browser }} NA ${{ github.event.inputs.artifact }}
+        - name: Run on schedule event
+          if: ${{ github.event_name == 'schedule' }}
+          run: npm run test:staging All Yes CHROME NA false
+          
+        - name: Run on Push
+          if: ${{ github.event_name == 'push' }}
+          run: npm run test:staging All Yes CHROME NA false
           # continue-on-error: true
+      
+        - name: Npm with no scheduler
+          if: ${{ github.event_name != 'schedule' && github.event_name != 'push' }}
+          run: npm run test:${{ github.event.inputs.env }} ${{ github.event.inputs.tag }} Yes ${{ github.event.inputs.browser }} NA ${{ github.event.inputs.artifact }}
           
         - name: Artifact Reporting
           if: github.event.inputs.artifact == 'true'
