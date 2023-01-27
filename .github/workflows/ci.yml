@@ -57,7 +57,6 @@ jobs:
         - name: Run on Push
           if: ${{ github.event_name == 'push' }}
           run: npm run test:staging All Yes CHROME NA false
-          # continue-on-error: true
       
         - name: Npm with no scheduler
           if: ${{ github.event_name != 'schedule' && github.event_name != 'push' }}
