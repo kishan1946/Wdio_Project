@@ -33,9 +33,9 @@ on:
   push:
     branches:
       - main
-  schedule:
+#   schedule:
     # Runs "everyday at 11 AM IST ( 5:30 UTC timezone)" (see https://crontab.guru)
-    - cron: '30 5 * * *'
+#     - cron: '30 5 * * *'
 
 jobs:
   build:
