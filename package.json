@@ -34,7 +34,7 @@
     "@wdio/spec-reporter": "^8.1.2",
     "allure-commandline": "^2.20.1",
     "chai": "^4.3.7",
-    "chromedriver": "^108.0.0",
+    "chromedriver": "^109.0.0",
     "dotenv": "^16.0.3",
     "geckodriver": "^3.2.0",
     "ts-node": "^10.9.1",
